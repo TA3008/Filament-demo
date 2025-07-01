@@ -58,6 +58,11 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            // ->authMiddleware([
+            //     fn ($request, $next) => auth()->check()
+            //         ? $next($request)
+            //         : redirect('/auth/google'),
+            // ]);
             ->authMiddleware([
                 Authenticate::class,
             ]);

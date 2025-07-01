@@ -13,13 +13,13 @@ class ProductChartWidget extends ChartWidget
 
     protected function getData(): array
     {
-        $data = Product::selectRaw('strftime("%m", created_at) as month, count(*) as count')
+        $data = Product::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->orderBy('month')
             ->get();
 
         $labels = $data->pluck('month')->map(function ($month) {
-            return 'Tháng ' . (int)$month;
+            return 'Tháng ' . (int) $month;
         });
 
         $values = $data->pluck('count');
@@ -38,6 +38,6 @@ class ProductChartWidget extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar'; // có thể dùng: 'line', 'pie', 'doughnut'
+        return 'bar'; // các lựa chọn khác: 'line', 'pie', 'doughnut'
     }
 }

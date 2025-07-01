@@ -16,7 +16,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Pages\Actions\DeleteAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\ImportAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Actions\Imports\ImportColumn;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\ProductResource\Pages;
@@ -32,11 +34,16 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function canViewAny(): bool
-    {
-        return Gate::allows('manage-products');
-    }
+    // public static function canViewAny(): bool
+    // {
+    //     return Gate::allows('manage-products');
+    // }
     
+    public static function getBreadcrumb(): string
+    {
+        return 'Sản phẩm';
+    }
+
     public static function getNavigationLabel(): string
     {
         return 'Sản phẩm';
@@ -66,7 +73,7 @@ class ProductResource extends Resource
                 TextColumn::make('name')->label('Tên sản phẩm')->searchable(),
                 TextColumn::make('price')->label('Giá')->money('VND'),
                 TextColumn::make('stock')->label('Sản phẩm trong kho'),
-                ImageColumn::make('image')->label('Ảnh')->circular(),
+                ImageColumn::make('image')->label('Ảnh')->circular()->disk('public'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
